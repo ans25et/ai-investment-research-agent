@@ -49,7 +49,7 @@ button {
 
 .layout {
   position: relative;
-  width: min(1180px, calc(100% - 32px));
+  width: min(1380px, calc(100% - 32px));
   margin: 0 auto;
   padding: 56px 0 72px;
 }
@@ -114,9 +114,15 @@ button {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.4fr) minmax(0, 0.95fr);
-  gap: 20px;
+  grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+  gap: 24px;
   align-items: start;
+}
+
+.left-rail {
+  display: grid;
+  gap: 20px;
+  align-self: start;
 }
 
 .panel {
@@ -221,6 +227,9 @@ button {
   padding: 10px 12px;
   background: rgba(13, 28, 42, 0.9);
   color: #d2dbe6;
+  flex: 1 1 180px;
+  min-width: 0;
+  text-wrap: balance;
 }
 
 .chip:hover,
@@ -247,6 +256,7 @@ button {
 .results-column {
   display: grid;
   gap: 20px;
+  min-width: 0;
 }
 
 .history-panel {
@@ -388,12 +398,28 @@ button {
   margin-top: 8px;
 }
 
+.insight-card,
+.history-item,
+.chip,
+.metric {
+  min-width: 0;
+}
+
 .empty-panel h2,
 .loading-panel h2,
 .error-panel h2,
 .insight-card h2 {
   font-size: clamp(1.35rem, 2vw, 2rem);
   line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.insight-card p,
+.history-query,
+.history-meta,
+.helper-copy,
+.hero p {
+  overflow-wrap: anywhere;
 }
 
 @keyframes pulse {
@@ -408,8 +434,19 @@ button {
   }
 }
 
+@media (max-width: 1180px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .left-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
 @media (max-width: 980px) {
-  .workspace,
+  .left-rail,
   .results-grid {
     grid-template-columns: 1fr;
   }
@@ -417,11 +454,16 @@ button {
   .hero-card {
     grid-column: span 1;
   }
+
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {
   .layout {
-    width: min(100% - 20px, 1180px);
+    width: min(100% - 20px, 1380px);
     padding-top: 28px;
     padding-bottom: 44px;
   }
@@ -431,11 +473,26 @@ button {
   }
 
   .composer-panel,
+  .history-panel,
   .empty-panel,
   .loading-panel,
   .error-panel,
   .insight-card {
     padding: 18px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 11vw, 3.1rem);
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .chip,
+  .depth-chip {
+    width: 100%;
+    justify-content: center;
   }
 
   .primary-button {

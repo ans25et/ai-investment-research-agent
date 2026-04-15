@@ -101,80 +101,82 @@ function App() {
         </section>
 
         <section className="workspace">
-          <div className="panel composer-panel">
-            <form className="composer" onSubmit={handleAnalyze}>
-              <label className="input-label" htmlFor="query">
-                Ask about a company, sector, or market theme
-              </label>
-              <textarea
-                id="query"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Analyze Tesla stock risks"
-                rows={4}
-              />
-              <div className="composer-toolbar">
-                <div className="depth-selector" role="radiogroup" aria-label="Analysis depth">
-                  {depthOptions.map((option) => (
-                    <button
-                      key={option.value}
-                      type="button"
-                      className={option.value === depth ? "depth-chip active" : "depth-chip"}
-                      onClick={() => setDepth(option.value)}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
+          <div className="left-rail">
+            <div className="panel composer-panel">
+              <form className="composer" onSubmit={handleAnalyze}>
+                <label className="input-label" htmlFor="query">
+                  Ask about a company, sector, or market theme
+                </label>
+                <textarea
+                  id="query"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Analyze Tesla stock risks"
+                  rows={4}
+                />
+                <div className="composer-toolbar">
+                  <div className="depth-selector" role="radiogroup" aria-label="Analysis depth">
+                    {depthOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        className={option.value === depth ? "depth-chip active" : "depth-chip"}
+                        onClick={() => setDepth(option.value)}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="helper-copy">
+                    {depth === "quick"
+                      ? "Fast brief for rapid screening."
+                      : depth === "deep"
+                        ? "Longer, sharper framing for higher-conviction review."
+                        : "Balanced coverage for everyday research questions."}
+                  </p>
                 </div>
-                <p className="helper-copy">
-                  {depth === "quick"
-                    ? "Fast brief for rapid screening."
-                    : depth === "deep"
-                      ? "Longer, sharper framing for higher-conviction review."
-                      : "Balanced coverage for everyday research questions."}
-                </p>
-              </div>
-              <div className="composer-footer">
-                <div className="chip-row">
-                  {samplePrompts.map((prompt) => (
-                    <button
-                      key={prompt}
-                      type="button"
-                      className="chip"
-                      onClick={() => setQuery(prompt)}
-                    >
-                      {prompt}
-                    </button>
-                  ))}
-                </div>
-                <button type="submit" className="primary-button" disabled={isLoading}>
-                  {isLoading ? "Analyzing..." : "Analyze"}
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {history.length ? (
-            <aside className="panel history-panel">
-              <p className="status-label">Recent Briefs</p>
-              <div className="history-list">
-                {history.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className="history-item"
-                    onClick={() => setQuery(item.query)}
-                  >
-                    <span className="history-title">{item.company}</span>
-                    <span className="history-query">{item.query}</span>
-                    <span className="history-meta">
-                      {item.sentiment} · {item.modeLabel}
-                    </span>
+                <div className="composer-footer">
+                  <div className="chip-row">
+                    {samplePrompts.map((prompt) => (
+                      <button
+                        key={prompt}
+                        type="button"
+                        className="chip"
+                        onClick={() => setQuery(prompt)}
+                      >
+                        {prompt}
+                      </button>
+                    ))}
+                  </div>
+                  <button type="submit" className="primary-button" disabled={isLoading}>
+                    {isLoading ? "Analyzing..." : "Analyze"}
                   </button>
-                ))}
-              </div>
-            </aside>
-          ) : null}
+                </div>
+              </form>
+            </div>
+
+            {history.length ? (
+              <aside className="panel history-panel">
+                <p className="status-label">Recent Briefs</p>
+                <div className="history-list">
+                  {history.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="history-item"
+                      onClick={() => setQuery(item.query)}
+                    >
+                      <span className="history-title">{item.company}</span>
+                      <span className="history-query">{item.query}</span>
+                      <span className="history-meta">
+                        {item.sentiment} · {item.modeLabel}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </aside>
+            ) : null}
+          </div>
 
           <div className="results-column">
             {isLoading ? (
