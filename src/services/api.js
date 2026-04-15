@@ -1,5 +1,7 @@
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+
 export async function analyzeInvestmentQuery(query, options = {}) {
-  const response = await fetch("/api/analyze", {
+  const response = await fetch(`${apiBaseUrl}/api/analyze`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

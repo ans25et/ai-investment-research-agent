@@ -7,6 +7,29 @@ dotenv.config({ path: "local.env", override: false });
 
 const app = express();
 const port = Number(process.env.PORT || 3002);
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use((request, response, next) => {
+  const origin = request.headers.origin;
+
+  if (origin && (allowedOrigins.length === 0 || allowedOrigins.includes(origin))) {
+    response.setHeader("Access-Control-Allow-Origin", origin);
+    response.setHeader("Vary", "Origin");
+  }
+
+  response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (request.method === "OPTIONS") {
+    response.sendStatus(204);
+    return;
+  }
+
+  next();
+});
 
 app.use(express.json());
 
