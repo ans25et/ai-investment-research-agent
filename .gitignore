@@ -1,0 +1,7 @@
+node_modules
+dist
+local.env
+local.env.save
+.env
+.DS_Store
+local-env-folder
